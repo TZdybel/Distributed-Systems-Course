@@ -105,3 +105,5 @@ venv.bak/
 
 # Additional ignores
 .idea/
+ex1/log.txt
+ex1/MulticastLogger.class

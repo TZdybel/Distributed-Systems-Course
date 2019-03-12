@@ -250,6 +250,7 @@ def receive_messages():
                     continue
                 print("Forwarding message")
                 sleep(1)
+                logger_socket.sendto(bytes("{} acquired token - {}".format(my_ID, datetime.now()), 'utf-8'), (logger_ip, logger_port))
                 next_lock.acquire()
                 next_socket.send(buff)
                 next_lock.release()

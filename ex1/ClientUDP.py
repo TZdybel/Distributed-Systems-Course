@@ -172,6 +172,7 @@ def receive_messages():
                     continue
                 print("Forwarding message")
                 sleep(1)
+                logger_socket.sendto(bytes("{} acquired token - {}".format(my_ID, datetime.now()), 'utf-8'), (logger_ip, logger_port))
                 my_socket.sendto(buff, (next_client_ip, next_client_port))
         elif type == TokenType.CONNECT.value:
             message = "{} {} {} {}".format(TokenType.ANSWER.value, source_address[0], next_client_ip, next_client_port)

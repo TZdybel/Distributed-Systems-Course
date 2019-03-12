@@ -21,7 +21,7 @@ przez około 1 sekundę (po otrzymaniu tokenu wywołujemy np. sleep(1), po tym c
 go dalej po ewentualnym dodaniu wiadomości). Dla uproszczenia zakładamy, że żaden klient nie\
 będzie "złośliwy" i nie doprowadzi do sytuacji, w której w sieci znajdą się dwa tokeny -\
 jednak za implementację mechanizmu, który to wyklucza, zostanie przyznany bonus punktowy.\
-Program ma umożliwiać dodawanie nowych użytkowników w trakcie działania systemu oraz\ 
+Program ma umożliwiać dodawanie nowych użytkowników w trakcie działania systemu oraz\
 zapewniać dla nich pełną funkcjonalność, a także zabezpieczać przed sytuajcą, w której\
 wiadomość krąży w nieskończoność w sieci (należy odpowiednio przemyśleć protokół komunikacyjny)\
 Dodatkowo, każdy klient ma przesyłać multicastem informację o otrzymaniu tokenu\

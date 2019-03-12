@@ -1,4 +1,12 @@
+UDP:
 python ClientUDP.py pierwszy 127.0.0.1 9000 127.0.0.1 9000 token
 python ClientUDP.py drugi 127.0.0.2 9000 127.0.0.1 9000
 python ClientUDP.py trzeci 127.0.0.3 9000 127.0.0.2 9000
 python ClientUDP.py czwarty 127.0.0.4 9000 127.0.0.3 9000
+
+
+TCP:
+python ClientTCP.py pierwszy 127.0.0.1 9000 127.0.0.1 9000 token
+python ClientTCP.py drugi 127.0.0.2 9000 127.0.0.1 9000
+python ClientTCP.py trzeci 127.0.0.3 9000 127.0.0.2 9000
+python ClientTCP.py czwarty 127.0.0.4 9000 127.0.0.3 9000

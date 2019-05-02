@@ -1,0 +1,28 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package pl.edu.agh.sr;
+
+service ExchangeRatesService {
+    rpc exchangeRates(CurrenciesInquiry) returns (stream CurrenciesResponse);
+}
+
+enum Currency {
+    AUD = 0;
+    EUR = 1;
+    USD = 2;
+    GBP = 3;
+    CHF = 4;
+}
+
+message CurrenciesInquiry {
+    repeated Currency currencies = 1;
+}
+
+message CurrenciesResponse {
+    message CurrencyExchange {
+        Currency name = 1;
+        double exchange = 2;
+    }
+
+    repeated CurrencyExchange currencyExchanges = 1;
+}

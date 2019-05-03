@@ -280,17 +280,17 @@ if 'BankPrx' not in _M_BankService.__dict__:
         def end_createPassword(self, _r):
             return _M_BankService.Bank._op_createPassword.end(self, _r)
 
-        def getAccountName(self, context=None):
-            return _M_BankService.Bank._op_getAccountName.invoke(self, ((), context))
+        def getExistingAccount(self, context=None):
+            return _M_BankService.Bank._op_getExistingAccount.invoke(self, ((), context))
 
-        def getAccountNameAsync(self, context=None):
-            return _M_BankService.Bank._op_getAccountName.invokeAsync(self, ((), context))
+        def getExistingAccountAsync(self, context=None):
+            return _M_BankService.Bank._op_getExistingAccount.invokeAsync(self, ((), context))
 
-        def begin_getAccountName(self, _response=None, _ex=None, _sent=None, context=None):
-            return _M_BankService.Bank._op_getAccountName.begin(self, ((), _response, _ex, _sent, context))
+        def begin_getExistingAccount(self, _response=None, _ex=None, _sent=None, context=None):
+            return _M_BankService.Bank._op_getExistingAccount.begin(self, ((), _response, _ex, _sent, context))
 
-        def end_getAccountName(self, _r):
-            return _M_BankService.Bank._op_getAccountName.end(self, _r)
+        def end_getExistingAccount(self, _r):
+            return _M_BankService.Bank._op_getExistingAccount.end(self, _r)
 
         def askForLoan(self, currency, amount, numOfMonths, context=None):
             return _M_BankService.Bank._op_askForLoan.invoke(self, ((currency, amount, numOfMonths), context))
@@ -363,8 +363,8 @@ if 'BankPrx' not in _M_BankService.__dict__:
         def createPassword(self, current=None):
             raise NotImplementedError("servant method 'createPassword' not implemented")
 
-        def getAccountName(self, current=None):
-            raise NotImplementedError("servant method 'getAccountName' not implemented")
+        def getExistingAccount(self, current=None):
+            raise NotImplementedError("servant method 'getExistingAccount' not implemented")
 
         def askForLoan(self, currency, amount, numOfMonths, current=None):
             raise NotImplementedError("servant method 'askForLoan' not implemented")
@@ -383,9 +383,9 @@ if 'BankPrx' not in _M_BankService.__dict__:
     _M_BankService._t_BankDisp = IcePy.defineClass('::BankService::Bank', Bank, (), None, ())
     Bank._ice_type = _M_BankService._t_BankDisp
 
-    Bank._op_newAccount = IcePy.Operation('newAccount', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0), ((), IcePy._t_string, False, 0), ((), IcePy._t_string, False, 0), ((), IcePy._t_long, False, 0)), (), ((), IcePy._t_string, False, 0), ())
+    Bank._op_newAccount = IcePy.Operation('newAccount', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0), ((), IcePy._t_string, False, 0), ((), IcePy._t_string, False, 0), ((), IcePy._t_long, False, 0)), (), ((), _M_BankService._t_AccountPrx, False, 0), ())
     Bank._op_createPassword = IcePy.Operation('createPassword', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), IcePy._t_string, False, 0), ())
-    Bank._op_getAccountName = IcePy.Operation('getAccountName', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), IcePy._t_string, False, 0), ())
+    Bank._op_getExistingAccount = IcePy.Operation('getExistingAccount', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), _M_BankService._t_AccountPrx, False, 0), ())
     Bank._op_askForLoan = IcePy.Operation('askForLoan', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0), ((), IcePy._t_double, False, 0), ((), IcePy._t_int, False, 0)), (), ((), _M_BankService._t_LoanDetails, False, 0), ())
     Bank._op_depositMoney = IcePy.Operation('depositMoney', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_double, False, 0),), (), None, ())
     Bank._op_withdrawMoney = IcePy.Operation('withdrawMoney', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_double, False, 0),), (), ((), IcePy._t_double, False, 0), ())

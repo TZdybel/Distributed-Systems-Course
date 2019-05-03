@@ -24,12 +24,13 @@ module BankService {
 
     interface Account {
         AccountDetails getAccountDetails();
+        string getPassword();
     }
 
     interface Bank {
-        string newAccount(string firstName, string lastName, string pesel, long income);
+        Account* newAccount(string firstName, string lastName, string pesel, long income);
         string createPassword();
-        string getAccountName();
+        Account* getExistingAccount();
         LoanDetails askForLoan(string currency, double amount, int numOfMonths);
         void depositMoney(double amount);
         double withdrawMoney(double amount);

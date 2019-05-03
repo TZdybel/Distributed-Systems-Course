@@ -17,11 +17,11 @@ package pl.edu.agh.sr.generated.BankService;
 
 public interface Bank extends com.zeroc.Ice.Object
 {
-    String newAccount(String firstName, String lastName, String pesel, long income, com.zeroc.Ice.Current current);
+    AccountPrx newAccount(String firstName, String lastName, String pesel, long income, com.zeroc.Ice.Current current);
 
     String createPassword(com.zeroc.Ice.Current current);
 
-    String getAccountName(com.zeroc.Ice.Current current);
+    AccountPrx getExistingAccount(com.zeroc.Ice.Current current);
 
     LoanDetails askForLoan(String currency, double amount, int numOfMonths, com.zeroc.Ice.Current current);
 
@@ -73,9 +73,9 @@ public interface Bank extends com.zeroc.Ice.Object
         iceP_pesel = istr.readString();
         iceP_income = istr.readLong();
         inS.endReadParams();
-        String ret = obj.newAccount(iceP_firstName, iceP_lastName, iceP_pesel, iceP_income, current);
+        AccountPrx ret = obj.newAccount(iceP_firstName, iceP_lastName, iceP_pesel, iceP_income, current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeString(ret);
+        ostr.writeProxy(ret);
         inS.endWriteParams(ostr);
         return inS.setResult(ostr);
     }
@@ -105,13 +105,13 @@ public interface Bank extends com.zeroc.Ice.Object
      * @param current -
      * @return -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getAccountName(Bank obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getExistingAccount(Bank obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
-        String ret = obj.getAccountName(current);
+        AccountPrx ret = obj.getExistingAccount(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeString(ret);
+        ostr.writeProxy(ret);
         inS.endWriteParams(ostr);
         return inS.setResult(ostr);
     }
@@ -186,7 +186,7 @@ public interface Bank extends com.zeroc.Ice.Object
         "askForLoan",
         "createPassword",
         "depositMoney",
-        "getAccountName",
+        "getExistingAccount",
         "ice_id",
         "ice_ids",
         "ice_isA",
@@ -222,7 +222,7 @@ public interface Bank extends com.zeroc.Ice.Object
             }
             case 3:
             {
-                return _iceD_getAccountName(this, in, current);
+                return _iceD_getExistingAccount(this, in, current);
             }
             case 4:
             {

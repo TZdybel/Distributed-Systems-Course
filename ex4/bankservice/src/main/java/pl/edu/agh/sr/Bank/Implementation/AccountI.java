@@ -20,7 +20,8 @@ public class AccountI implements Account {
         return client.accountDetails;
     }
 
-    public String getPassword() {
+    @Override
+    public String getPassword(Current current) {
         return password;
     }
 

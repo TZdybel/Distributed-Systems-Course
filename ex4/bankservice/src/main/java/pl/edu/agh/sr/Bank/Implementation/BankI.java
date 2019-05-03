@@ -2,7 +2,8 @@ package pl.edu.agh.sr.Bank.Implementation;
 
 import com.zeroc.Ice.AlreadyRegisteredException;
 import com.zeroc.Ice.Current;
-import com.zeroc.Ice.SecurityException;
+import com.zeroc.Ice.Identity;
+import com.zeroc.Ice.UnknownLocalException;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import pl.edu.agh.sr.CurrenciesInquiry;
@@ -12,8 +13,6 @@ import pl.edu.agh.sr.ExchangeRatesServiceGrpc;
 import pl.edu.agh.sr.generated.BankService.*;
 
 import java.util.*;
-
-import static com.zeroc.Ice.Util.stringToIdentity;
 
 public class BankI implements Bank {
     private Map<String, AccountI> accounts = new HashMap<>();
@@ -39,18 +38,16 @@ public class BankI implements Bank {
     }
 
     @Override
-    public String newAccount(String firstName, String lastName, String pesel, long income, Current current) {
+    public AccountPrx newAccount(String firstName, String lastName, String pesel, long income, Current current) {
         if (pesel.matches("[0-9]+") && pesel.length() == 11) {
             if (accounts.get(pesel) != null) throw new AlreadyRegisteredException();
             AccountType type = income >= 20000 ? AccountType.Premium : AccountType.Standard;
             String password = createPassword(current);
             AccountI account = new AccountI(new Client(firstName, lastName, pesel, new AccountDetails(income, 0, type)), password);
-            current.adapter.add(account, stringToIdentity(pesel + type.toString()));
-            current.adapter.activate();
             accounts.put(pesel, account);
             System.out.println("Account for " + pesel + " created");
-            return password + " " + type.toString();
-        } else return "";
+            return AccountPrx.uncheckedCast(current.adapter.add(account, new Identity(pesel, type.toString())));
+        } else return null;
     }
 
     @Override
@@ -82,19 +79,19 @@ public class BankI implements Bank {
     }
 
     @Override
-    public String getAccountName(Current current) {
+    public AccountPrx getExistingAccount(Current current) {
         AccountI account = getAccount(current);
         if (account != null) {
-            return current.ctx.get("PESEL") + account.getAccountDetails(current).type.toString();
-        }
-        return "";
+            System.out.println(current.ctx.get("PESEL") + " logged in");
+            return AccountPrx.uncheckedCast(current.adapter.createProxy(new Identity(current.ctx.get("PESEL"), account.getAccountDetails(current).type.toString())));
+        } else return null;
     }
 
     private AccountI getAccount(Current current) {
         String pesel = current.ctx.get("PESEL");
         String password = current.ctx.get("password");
         AccountI account = accounts.get(pesel);
-        if (account != null && account.getPassword().equals(password)) {
+        if (account != null && account.getPassword(current).equals(password)) {
             return account;
         }
         return null;

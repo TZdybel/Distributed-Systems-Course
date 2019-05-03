@@ -54,6 +54,43 @@ public interface AccountPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
+    default String getPassword()
+    {
+        return getPassword(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default String getPassword(java.util.Map<String, String> context)
+    {
+        return _iceI_getPasswordAsync(context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<java.lang.String> getPasswordAsync()
+    {
+        return _iceI_getPasswordAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<java.lang.String> getPasswordAsync(java.util.Map<String, String> context)
+    {
+        return _iceI_getPasswordAsync(context, false);
+    }
+
+    /**
+     * @hidden
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<java.lang.String> _iceI_getPasswordAsync(java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getPassword", null, sync, null);
+        f.invoke(true, context, null, null, istr -> {
+                     String ret;
+                     ret = istr.readString();
+                     return ret;
+                 });
+        return f;
+    }
+
     /**
      * Contacts the remote server to verify that the object implements this type.
      * Raises a local exception if a communication error occurs.

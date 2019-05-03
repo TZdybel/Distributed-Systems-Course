@@ -17,24 +17,24 @@ package pl.edu.agh.sr.generated.BankService;
 
 public interface AccountPrx extends com.zeroc.Ice.ObjectPrx
 {
-    default double getBalance()
+    default AccountDetails getAccountDetails()
     {
-        return getBalance(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        return getAccountDetails(com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default double getBalance(java.util.Map<String, String> context)
+    default AccountDetails getAccountDetails(java.util.Map<String, String> context)
     {
-        return _iceI_getBalanceAsync(context, true).waitForResponse();
+        return _iceI_getAccountDetailsAsync(context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.Double> getBalanceAsync()
+    default java.util.concurrent.CompletableFuture<AccountDetails> getAccountDetailsAsync()
     {
-        return _iceI_getBalanceAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_getAccountDetailsAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.Double> getBalanceAsync(java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<AccountDetails> getAccountDetailsAsync(java.util.Map<String, String> context)
     {
-        return _iceI_getBalanceAsync(context, false);
+        return _iceI_getAccountDetailsAsync(context, false);
     }
 
     /**
@@ -43,161 +43,14 @@ public interface AccountPrx extends com.zeroc.Ice.ObjectPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.Double> _iceI_getBalanceAsync(java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<AccountDetails> _iceI_getAccountDetailsAsync(java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.Double> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getBalance", null, sync, null);
+        com.zeroc.IceInternal.OutgoingAsync<AccountDetails> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getAccountDetails", null, sync, null);
         f.invoke(true, context, null, null, istr -> {
-                     double ret;
-                     ret = istr.readDouble();
+                     AccountDetails ret;
+                     ret = AccountDetails.ice_read(istr);
                      return ret;
                  });
-        return f;
-    }
-
-    default AccountType getAccountType()
-    {
-        return getAccountType(com.zeroc.Ice.ObjectPrx.noExplicitContext);
-    }
-
-    default AccountType getAccountType(java.util.Map<String, String> context)
-    {
-        return _iceI_getAccountTypeAsync(context, true).waitForResponse();
-    }
-
-    default java.util.concurrent.CompletableFuture<AccountType> getAccountTypeAsync()
-    {
-        return _iceI_getAccountTypeAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
-    }
-
-    default java.util.concurrent.CompletableFuture<AccountType> getAccountTypeAsync(java.util.Map<String, String> context)
-    {
-        return _iceI_getAccountTypeAsync(context, false);
-    }
-
-    /**
-     * @hidden
-     * @param context -
-     * @param sync -
-     * @return -
-     **/
-    default com.zeroc.IceInternal.OutgoingAsync<AccountType> _iceI_getAccountTypeAsync(java.util.Map<String, String> context, boolean sync)
-    {
-        com.zeroc.IceInternal.OutgoingAsync<AccountType> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getAccountType", null, sync, null);
-        f.invoke(true, context, null, null, istr -> {
-                     AccountType ret;
-                     ret = AccountType.ice_read(istr);
-                     return ret;
-                 });
-        return f;
-    }
-
-    default double getIncome()
-    {
-        return getIncome(com.zeroc.Ice.ObjectPrx.noExplicitContext);
-    }
-
-    default double getIncome(java.util.Map<String, String> context)
-    {
-        return _iceI_getIncomeAsync(context, true).waitForResponse();
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.Double> getIncomeAsync()
-    {
-        return _iceI_getIncomeAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.Double> getIncomeAsync(java.util.Map<String, String> context)
-    {
-        return _iceI_getIncomeAsync(context, false);
-    }
-
-    /**
-     * @hidden
-     * @param context -
-     * @param sync -
-     * @return -
-     **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.Double> _iceI_getIncomeAsync(java.util.Map<String, String> context, boolean sync)
-    {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.Double> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getIncome", null, sync, null);
-        f.invoke(true, context, null, null, istr -> {
-                     double ret;
-                     ret = istr.readDouble();
-                     return ret;
-                 });
-        return f;
-    }
-
-    default String getPassword()
-    {
-        return getPassword(com.zeroc.Ice.ObjectPrx.noExplicitContext);
-    }
-
-    default String getPassword(java.util.Map<String, String> context)
-    {
-        return _iceI_getPasswordAsync(context, true).waitForResponse();
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.String> getPasswordAsync()
-    {
-        return _iceI_getPasswordAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.String> getPasswordAsync(java.util.Map<String, String> context)
-    {
-        return _iceI_getPasswordAsync(context, false);
-    }
-
-    /**
-     * @hidden
-     * @param context -
-     * @param sync -
-     * @return -
-     **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.String> _iceI_getPasswordAsync(java.util.Map<String, String> context, boolean sync)
-    {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getPassword", null, sync, null);
-        f.invoke(true, context, null, null, istr -> {
-                     String ret;
-                     ret = istr.readString();
-                     return ret;
-                 });
-        return f;
-    }
-
-    default void setBalance(double amount)
-    {
-        setBalance(amount, com.zeroc.Ice.ObjectPrx.noExplicitContext);
-    }
-
-    default void setBalance(double amount, java.util.Map<String, String> context)
-    {
-        _iceI_setBalanceAsync(amount, context, true).waitForResponse();
-    }
-
-    default java.util.concurrent.CompletableFuture<Void> setBalanceAsync(double amount)
-    {
-        return _iceI_setBalanceAsync(amount, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
-    }
-
-    default java.util.concurrent.CompletableFuture<Void> setBalanceAsync(double amount, java.util.Map<String, String> context)
-    {
-        return _iceI_setBalanceAsync(amount, context, false);
-    }
-
-    /**
-     * @hidden
-     * @param iceP_amount -
-     * @param context -
-     * @param sync -
-     * @return -
-     **/
-    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_setBalanceAsync(double iceP_amount, java.util.Map<String, String> context, boolean sync)
-    {
-        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "setBalance", null, sync, null);
-        f.invoke(false, context, null, ostr -> {
-                     ostr.writeDouble(iceP_amount);
-                 }, null);
         return f;
     }
 

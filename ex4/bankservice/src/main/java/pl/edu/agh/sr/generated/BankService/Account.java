@@ -17,15 +17,7 @@ package pl.edu.agh.sr.generated.BankService;
 
 public interface Account extends com.zeroc.Ice.Object
 {
-    double getBalance(com.zeroc.Ice.Current current);
-
-    AccountType getAccountType(com.zeroc.Ice.Current current);
-
-    double getIncome(com.zeroc.Ice.Current current);
-
-    String getPassword(com.zeroc.Ice.Current current);
-
-    void setBalance(double amount, com.zeroc.Ice.Current current);
+    AccountDetails getAccountDetails(com.zeroc.Ice.Current current);
 
     /** @hidden */
     static final String[] _iceIds =
@@ -58,101 +50,25 @@ public interface Account extends com.zeroc.Ice.Object
      * @param current -
      * @return -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getBalance(Account obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getAccountDetails(Account obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
-        double ret = obj.getBalance(current);
+        AccountDetails ret = obj.getAccountDetails(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeDouble(ret);
+        AccountDetails.ice_write(ostr, ret);
         inS.endWriteParams(ostr);
         return inS.setResult(ostr);
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getAccountType(Account obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        inS.readEmptyParams();
-        AccountType ret = obj.getAccountType(current);
-        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        AccountType.ice_write(ostr, ret);
-        inS.endWriteParams(ostr);
-        return inS.setResult(ostr);
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getIncome(Account obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        inS.readEmptyParams();
-        double ret = obj.getIncome(current);
-        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeDouble(ret);
-        inS.endWriteParams(ostr);
-        return inS.setResult(ostr);
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getPassword(Account obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        inS.readEmptyParams();
-        String ret = obj.getPassword(current);
-        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeString(ret);
-        inS.endWriteParams(ostr);
-        return inS.setResult(ostr);
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-    **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_setBalance(Account obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        com.zeroc.Ice.InputStream istr = inS.startReadParams();
-        double iceP_amount;
-        iceP_amount = istr.readDouble();
-        inS.endReadParams();
-        obj.setBalance(iceP_amount, current);
-        return inS.setResult(inS.writeEmptyParams());
     }
 
     /** @hidden */
     final static String[] _iceOps =
     {
-        "getAccountType",
-        "getBalance",
-        "getIncome",
-        "getPassword",
+        "getAccountDetails",
         "ice_id",
         "ice_ids",
         "ice_isA",
-        "ice_ping",
-        "setBalance"
+        "ice_ping"
     };
 
     /** @hidden */
@@ -170,39 +86,23 @@ public interface Account extends com.zeroc.Ice.Object
         {
             case 0:
             {
-                return _iceD_getAccountType(this, in, current);
+                return _iceD_getAccountDetails(this, in, current);
             }
             case 1:
             {
-                return _iceD_getBalance(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
             }
             case 2:
             {
-                return _iceD_getIncome(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
             }
             case 3:
             {
-                return _iceD_getPassword(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
             }
             case 4:
             {
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
-            }
-            case 5:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
-            }
-            case 6:
-            {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
-            }
-            case 7:
-            {
                 return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
-            }
-            case 8:
-            {
-                return _iceD_setBalance(this, in, current);
             }
         }
 

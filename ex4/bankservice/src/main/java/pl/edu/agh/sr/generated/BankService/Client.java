@@ -24,28 +24,22 @@ public class Client implements java.lang.Cloneable,
 
     public String pesel;
 
-    public double income;
-
-    public double balance;
-
-    public AccountType type;
+    public AccountDetails accountDetails;
 
     public Client()
     {
         this.firstName = "";
         this.lastName = "";
         this.pesel = "";
-        this.type = AccountType.Premium;
+        this.accountDetails = new AccountDetails();
     }
 
-    public Client(String firstName, String lastName, String pesel, double income, double balance, AccountType type)
+    public Client(String firstName, String lastName, String pesel, AccountDetails accountDetails)
     {
         this.firstName = firstName;
         this.lastName = lastName;
         this.pesel = pesel;
-        this.income = income;
-        this.balance = balance;
-        this.type = type;
+        this.accountDetails = accountDetails;
     }
 
     public boolean equals(java.lang.Object rhs)
@@ -83,17 +77,9 @@ public class Client implements java.lang.Cloneable,
                     return false;
                 }
             }
-            if(this.income != r.income)
+            if(this.accountDetails != r.accountDetails)
             {
-                return false;
-            }
-            if(this.balance != r.balance)
-            {
-                return false;
-            }
-            if(this.type != r.type)
-            {
-                if(this.type == null || r.type == null || !this.type.equals(r.type))
+                if(this.accountDetails == null || r.accountDetails == null || !this.accountDetails.equals(r.accountDetails))
                 {
                     return false;
                 }
@@ -112,9 +98,7 @@ public class Client implements java.lang.Cloneable,
         h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, firstName);
         h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, lastName);
         h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, pesel);
-        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, income);
-        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, balance);
-        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, type);
+        h_ = com.zeroc.IceInternal.HashUtil.hashAdd(h_, accountDetails);
         return h_;
     }
 
@@ -137,9 +121,7 @@ public class Client implements java.lang.Cloneable,
         ostr.writeString(this.firstName);
         ostr.writeString(this.lastName);
         ostr.writeString(this.pesel);
-        ostr.writeDouble(this.income);
-        ostr.writeDouble(this.balance);
-        AccountType.ice_write(ostr, this.type);
+        AccountDetails.ice_write(ostr, this.accountDetails);
     }
 
     public void ice_readMembers(com.zeroc.Ice.InputStream istr)
@@ -147,9 +129,7 @@ public class Client implements java.lang.Cloneable,
         this.firstName = istr.readString();
         this.lastName = istr.readString();
         this.pesel = istr.readString();
-        this.income = istr.readDouble();
-        this.balance = istr.readDouble();
-        this.type = AccountType.ice_read(istr);
+        this.accountDetails = AccountDetails.ice_read(istr);
     }
 
     static public void ice_write(com.zeroc.Ice.OutputStream ostr, Client v)
@@ -205,5 +185,5 @@ public class Client implements java.lang.Cloneable,
     private static final Client _nullMarshalValue = new Client();
 
     /** @hidden */
-    public static final long serialVersionUID = 468730671288670251L;
+    public static final long serialVersionUID = 8246169197687681045L;
 }

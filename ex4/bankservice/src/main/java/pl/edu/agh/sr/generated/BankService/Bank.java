@@ -21,6 +21,8 @@ public interface Bank extends com.zeroc.Ice.Object
 
     String createPassword(com.zeroc.Ice.Current current);
 
+    String getAccountName(com.zeroc.Ice.Current current);
+
     LoanDetails askForLoan(String currency, double amount, int numOfMonths, com.zeroc.Ice.Current current);
 
     void depositMoney(double amount, com.zeroc.Ice.Current current);
@@ -103,6 +105,24 @@ public interface Bank extends com.zeroc.Ice.Object
      * @param current -
      * @return -
     **/
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getAccountName(Bank obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    {
+        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        inS.readEmptyParams();
+        String ret = obj.getAccountName(current);
+        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
+        ostr.writeString(ret);
+        inS.endWriteParams(ostr);
+        return inS.setResult(ostr);
+    }
+
+    /**
+     * @hidden
+     * @param obj -
+     * @param inS -
+     * @param current -
+     * @return -
+    **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_askForLoan(Bank obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
@@ -166,6 +186,7 @@ public interface Bank extends com.zeroc.Ice.Object
         "askForLoan",
         "createPassword",
         "depositMoney",
+        "getAccountName",
         "ice_id",
         "ice_ids",
         "ice_isA",
@@ -201,25 +222,29 @@ public interface Bank extends com.zeroc.Ice.Object
             }
             case 3:
             {
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
+                return _iceD_getAccountName(this, in, current);
             }
             case 4:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
             }
             case 5:
             {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
             }
             case 6:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
             }
             case 7:
             {
-                return _iceD_newAccount(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
             }
             case 8:
+            {
+                return _iceD_newAccount(this, in, current);
+            }
+            case 9:
             {
                 return _iceD_withdrawMoney(this, in, current);
             }

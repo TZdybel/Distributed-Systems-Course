@@ -2,6 +2,8 @@ package pl.edu.agh.sr.Bank;
 
 import com.zeroc.Ice.Communicator;
 import com.zeroc.Ice.ObjectAdapter;
+import com.zeroc.Ice.SocketException;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import pl.edu.agh.sr.Bank.Implementation.BankI;
 import pl.edu.agh.sr.Currency;
 
@@ -14,10 +16,23 @@ import static com.zeroc.Ice.Util.initialize;
 
 public class Bank {
     public static void main(String[] args) {
-        int port = 9001;
         Scanner scanner = new Scanner(System.in);
         try (Communicator communicator = initialize(args)) {
-            ObjectAdapter adapter = communicator.createObjectAdapterWithEndpoints("BankAdapter", "default -p " + port);
+            System.out.println("How to name this bank?");
+            String bankName = scanner.nextLine();
+            System.out.println("What port to use?");
+            int port = 0;
+            ObjectAdapter adapter = null;
+            try {
+                port = Integer.parseInt(scanner.nextLine());
+                adapter = communicator.createObjectAdapterWithEndpoints(bankName + "Adapter", "default -p " + port);
+            } catch (NumberFormatException e) {
+                System.out.println("NaN");
+                System.exit(1);
+            } catch (SocketException e) {
+                System.out.println("Some bank already works under this port");
+                System.exit(1);
+            }
             List<Currency> currencies = new LinkedList<>();
             boolean end = false;
             while (!end) {
@@ -34,8 +49,6 @@ public class Bank {
                     }
                 }
             }
-            System.out.println("How to name this bank?");
-            String bankName = scanner.nextLine();
             BankI bank = new BankI(currencies);
             adapter.add(bank, stringToIdentity(bankName));
             adapter.activate();

@@ -2,14 +2,18 @@
 module BankService {
     enum AccountType { Premium, Standard };
 
+    struct AccountDetails {
+            double income;
+            double balance;
+            AccountType type;
+    }
+
     struct Client {
         string firstName;
         string lastName;
         string pesel;
-        double income;
-        double balance;
-        AccountType type;
-    }
+        AccountDetails accountDetails;
+   }
 
     struct LoanDetails {
         string nativeCurrency;
@@ -19,16 +23,13 @@ module BankService {
     }
 
     interface Account {
-        double getBalance();
-        AccountType getAccountType();
-        double getIncome();
-        string getPassword();
-        void setBalance(double amount);
+        AccountDetails getAccountDetails();
     }
 
     interface Bank {
         string newAccount(string firstName, string lastName, string pesel, long income);
         string createPassword();
+        string getAccountName();
         LoanDetails askForLoan(string currency, double amount, int numOfMonths);
         void depositMoney(double amount);
         double withdrawMoney(double amount);

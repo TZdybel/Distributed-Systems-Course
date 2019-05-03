@@ -1,6 +1,8 @@
 package pl.edu.agh.sr.Bank.Implementation;
 
+import com.zeroc.Ice.AlreadyRegisteredException;
 import com.zeroc.Ice.Current;
+import com.zeroc.Ice.SecurityException;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import pl.edu.agh.sr.CurrenciesInquiry;
@@ -30,20 +32,24 @@ public class BankI implements Bank {
 
         stub = ExchangeRatesServiceGrpc.newBlockingStub(channel);
 
-        Thread thread = new Thread(new UpdateExchangeRates());
-        thread.start();
+        if (!availableCurrencies.isEmpty()) {
+            Thread thread = new Thread(new UpdateExchangeRates());
+            thread.start();
+        }
     }
 
     @Override
     public String newAccount(String firstName, String lastName, String pesel, long income, Current current) {
         if (pesel.matches("[0-9]+") && pesel.length() == 11) {
+            if (accounts.get(pesel) != null) throw new AlreadyRegisteredException();
             AccountType type = income >= 20000 ? AccountType.Premium : AccountType.Standard;
             String password = createPassword(current);
-            AccountI account = new AccountI(new Client(firstName, lastName, pesel, income, 0, type), password);
-            current.adapter.add(account, stringToIdentity(pesel + account.getAccountType(current).toString()));
+            AccountI account = new AccountI(new Client(firstName, lastName, pesel, new AccountDetails(income, 0, type)), password);
+            current.adapter.add(account, stringToIdentity(pesel + type.toString()));
             current.adapter.activate();
             accounts.put(pesel, account);
-            return password;
+            System.out.println("Account for " + pesel + " created");
+            return password + " " + type.toString();
         } else return "";
     }
 
@@ -61,18 +67,34 @@ public class BankI implements Bank {
 
     @Override
     public LoanDetails askForLoan(String currency, double amount, int numOfMonths, Current current) {
-        for (Currency curr : availableCurrencies.keySet()) {
-            if (curr.toString().equals(currency)) {
-                return new LoanDetails("PLN", amount * availableCurrencies.get(curr), curr.toString(), amount);
+        System.out.println("Inquiry about loan from " + current.ctx.get("PESEL"));
+        AccountI account = getAccount(current);
+        if (account != null && account.getAccountDetails(current).type.toString().equals("Premium")) {
+            for (Currency curr : availableCurrencies.keySet()) {
+                if (curr.toString().equals(currency)) {
+                    double calculatedAmount = (Math.floor((amount * availableCurrencies.get(curr)) * 100))/100;
+                    return new LoanDetails("PLN", calculatedAmount, curr.toString(), amount);
+                }
             }
-        } return null;
+            return new LoanDetails("Bank does not operate on such currency", 0, "Bank does not operate on such currency", 0);
+        }
+        return new LoanDetails("Only for PREMIUM users", 0, "Only for PREMIUM users", 0);
+    }
+
+    @Override
+    public String getAccountName(Current current) {
+        AccountI account = getAccount(current);
+        if (account != null) {
+            return current.ctx.get("PESEL") + account.getAccountDetails(current).type.toString();
+        }
+        return "";
     }
 
     private AccountI getAccount(Current current) {
         String pesel = current.ctx.get("PESEL");
         String password = current.ctx.get("password");
         AccountI account = accounts.get(pesel);
-        if (account != null && account.getPassword(current).equals(password)) {
+        if (account != null && account.getPassword().equals(password)) {
             return account;
         }
         return null;
@@ -80,17 +102,19 @@ public class BankI implements Bank {
 
     @Override
     public void depositMoney(double amount, Current current) {
-        Account account = getAccount(current);
+        AccountI account = getAccount(current);
         if (account != null) {
             account.setBalance(amount, current);
+            System.out.println(current.ctx.get("PESEL") + " made a deposit of " + amount);
         }
     }
 
     @Override
     public double withdrawMoney(double amount, Current current) {
-        Account account = getAccount(current);
-        if (account != null) {
+        AccountI account = getAccount(current);
+        if (account != null && account.getAccountDetails(current).balance >= amount) {
             account.setBalance(-amount, current);
+            System.out.println(current.ctx.get("PESEL") + " made a withdraw of " + amount);
             return amount;
         }
         return 0;

@@ -100,6 +100,43 @@ public interface BankPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
+    default String getAccountName()
+    {
+        return getAccountName(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default String getAccountName(java.util.Map<String, String> context)
+    {
+        return _iceI_getAccountNameAsync(context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<java.lang.String> getAccountNameAsync()
+    {
+        return _iceI_getAccountNameAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<java.lang.String> getAccountNameAsync(java.util.Map<String, String> context)
+    {
+        return _iceI_getAccountNameAsync(context, false);
+    }
+
+    /**
+     * @hidden
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<java.lang.String> _iceI_getAccountNameAsync(java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getAccountName", null, sync, null);
+        f.invoke(true, context, null, null, istr -> {
+                     String ret;
+                     ret = istr.readString();
+                     return ret;
+                 });
+        return f;
+    }
+
     default LoanDetails askForLoan(String currency, double amount, int numOfMonths)
     {
         return askForLoan(currency, amount, numOfMonths, com.zeroc.Ice.ObjectPrx.noExplicitContext);

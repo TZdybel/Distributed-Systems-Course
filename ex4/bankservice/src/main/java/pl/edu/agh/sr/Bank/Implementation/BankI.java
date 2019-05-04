@@ -3,7 +3,6 @@ package pl.edu.agh.sr.Bank.Implementation;
 import com.zeroc.Ice.AlreadyRegisteredException;
 import com.zeroc.Ice.Current;
 import com.zeroc.Ice.Identity;
-import com.zeroc.Ice.UnknownLocalException;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import pl.edu.agh.sr.CurrenciesInquiry;

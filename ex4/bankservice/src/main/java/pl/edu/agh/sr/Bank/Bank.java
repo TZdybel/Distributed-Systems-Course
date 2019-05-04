@@ -3,7 +3,6 @@ package pl.edu.agh.sr.Bank;
 import com.zeroc.Ice.Communicator;
 import com.zeroc.Ice.ObjectAdapter;
 import com.zeroc.Ice.SocketException;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import pl.edu.agh.sr.Bank.Implementation.BankI;
 import pl.edu.agh.sr.Currency;
 

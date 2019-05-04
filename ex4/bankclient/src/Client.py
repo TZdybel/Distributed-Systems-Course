@@ -25,13 +25,13 @@ def create_new_account(bank):
         print("User with that PESEL already exists")
         return log_in(bank)
     password = account.getPassword()
-    type = account.getAccountDetails().type
-    print("Your password: " + password)
-    print("Your account type: " + str(type))
     ctx = {
         "PESEL": pesel,
         "password": password
     }
+    type = account.getAccountDetails(ctx).type
+    print("Your password: " + password)
+    print("Your account type: " + str(type))
     return ctx, account
 
 
@@ -135,7 +135,7 @@ def main():
         except ValueError:
             print("NaN")
             exit(1)
-        except (Ice.ConnectionRefusedException, Ice.ObjectNotExistException):
+        except (Ice.ConnectionRefusedException, Ice.ObjectNotExistException, Ice.BadMagicException):
             print("Such bank does not exist")
             exit(1)
         if not bank:

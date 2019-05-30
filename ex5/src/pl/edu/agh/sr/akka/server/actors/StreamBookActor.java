@@ -1,21 +1,23 @@
 package pl.edu.agh.sr.akka.server.actors;
 
-import akka.Done;
 import akka.NotUsed;
 import akka.actor.AbstractActor;
+import akka.actor.ActorRef;
 import akka.stream.ActorMaterializer;
 import akka.stream.Materializer;
+import akka.stream.OverflowStrategy;
+import akka.stream.ThrottleMode;
 import akka.stream.javadsl.*;
 import akka.util.ByteString;
 import pl.edu.agh.sr.akka.requests.StreamRequest;
 import pl.edu.agh.sr.akka.responses.StreamResponse;
+import scala.concurrent.duration.FiniteDuration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
-import java.util.concurrent.CompletionStage;
-
-import static java.lang.Thread.sleep;
+import java.nio.file.Files;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public class StreamBookActor extends AbstractActor {
     @Override
@@ -26,19 +28,17 @@ public class StreamBookActor extends AbstractActor {
                     File bookFile = new File("src/pl/edu/agh/sr/akka/resources/books/" + title + ".txt");
                     if (bookFile.exists()) {
                         final Materializer mat = ActorMaterializer.create(context().system());
-                        final Path file = bookFile.toPath();
-                        Source<Path, NotUsed> source = Source.single(file);
-                        final Flow<ByteString, ByteString, NotUsed> flow = Flow.of(ByteString.class)
-                                .via(Framing.delimiter(ByteString.fromString("\n"), 256, FramingTruncation.ALLOW));
-                        final Sink<ByteString, CompletionStage<Done>> sink = Sink.foreach(s -> {
-                            context().parent().tell(new StreamResponse(s), null);
-                            sleep(1000);
-                        });
-                        FileIO.fromPath(file).via(flow).runWith(sink, mat);
+                        ActorRef run = Source.actorRef(256, OverflowStrategy.dropNew())
+                                .throttle(1, FiniteDuration.create(1, TimeUnit.SECONDS), 1, ThrottleMode.shaping())
+                                .to(Sink.actorRef(sender(), NotUsed.getInstance()))
+                                .run(mat);
+
+                        Stream<String> lines = Files.lines(bookFile.toPath());
+                        lines.forEachOrdered(line -> run.tell(new StreamResponse(ByteString.fromString(line)), getSelf()));
                     } else throw new FileNotFoundException();
                 })
-                .match(StreamResponse.class, resp -> context().parent().tell(resp, null))
                 .matchAny(o -> System.out.println("Unknown message"))
                 .build();
     }
+
 }

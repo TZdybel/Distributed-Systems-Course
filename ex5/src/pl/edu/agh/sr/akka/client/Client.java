@@ -20,7 +20,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class Client extends AbstractActor {
-    private String server = "akka.tcp://server@127.0.0.1:9000";
+    private String server = "akka.tcp://server@127.0.0.1:9000/user/server";
 
     @Override
     public Receive createReceive() {
